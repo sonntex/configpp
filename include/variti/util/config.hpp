@@ -109,11 +109,10 @@ void lookup_def(const config_setting& st, const std::string& name, T& dst)
 template <typename T, typename D>
 void lookup_def(const config_setting& st, const std::string& name, T& dst, const D& def)
 {
-  try {
-    lookup(st, name, dst);
-  } catch (...) {
+  if (st.exists(name))
+    dst = static_cast<typename std::remove_reference<T>::type>(st.lookup(name, true));
+  else
     dst = def;
-  }
 }
 
 template <typename T>
@@ -134,11 +133,10 @@ void lookup_def(const config_setting& st, std::size_t indx, T& dst)
 template <typename T, typename D>
 void lookup_def(const config_setting& st, std::size_t indx, T& dst, const D& def)
 {
-  try {
-    lookup(st, indx, dst);
-  } catch (...) {
+  if (indx < st.size())
+    dst = static_cast<typename std::remove_reference<T>::type>(st.lookup(indx, true));
+  else
     dst = def;
-  }
 }
 
 }}
