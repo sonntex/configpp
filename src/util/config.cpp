@@ -270,7 +270,7 @@ std::size_t config_setting::fileline() const
 
 bool config_setting::visited() const
 {
-  return boost::algorithm::starts_with(path(), "root.version") || hook(h)->visited;
+  return hook(h)->visited || boost::algorithm::starts_with(path(), "root.version");
 }
 
 std::ostream& operator<<(std::ostream& os, const config_setting& st)
